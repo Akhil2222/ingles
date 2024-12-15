@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Tunes of the Wild</title>
+  <title>Rings of Time</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
@@ -227,7 +227,7 @@
     #prelude{
       left: 60vh;
       top: 1vh;
-      width: calc(100% - 500px * var(--scale) - 60vh - 50px);
+      width: calc(100% - 500px * var(--scale) - 60vh - 200px);
       position: absolute;
     }
     #prelude div{
@@ -244,9 +244,19 @@
     .info h1{
       margin-top: 0px;
     }
+    #title{
+      text-align: center;
+      font-size: 7vh;
+    }
+
+    .l{
+      z-index: 1000;
+      position: absolute;
+    }
   </style>
 </head>
 <body>
+  <h1 id="title">Rings Of Time</h1>
   <div id="prelude">
     <div id="info1" class="info">
       <button class="back">🡐 Back</button>
@@ -298,10 +308,18 @@
     </div>
   </div>
   <div id="rings" reset>
-    <div id="ring4" class="ring ring4"></div>
-    <div id="ring3" class="ring ring3"></div>
-    <div id="ring2" class="ring ring2"></div>
-    <div id="ring1" class="ring ring1"></div>
+    <div id="ring4" class="ring ring4" title="2010 - 2025"></div>
+    <div id="ring3" class="ring ring3" title="1995 - 2010"></div>
+    <div id="ring2" class="ring ring2" title="1980 - 1995"></div>
+    <div id="ring1" class="ring ring1" title="1960 - 1980"></div>
+    <svg width="500" height="500" style="pointer-events: none;position: absolute; z-index: 1000;">
+      <polyline points="246,248 246,467" style="stroke: black;stroke-width: 2px;"></polyline>
+      <text x="250" y="248">1960</text>
+      <text x="250" y="320">1980</text>
+      <text x="250" y="370">1995</text>
+      <text x="250" y="430">2010</text>
+      <text x="250" y="477">2025</text>
+    </svg>
   </div>
   <div id="record">
     <div id="ringA" class=""></div>
@@ -328,7 +346,14 @@
       "./2010.png",
       "./2025.png",
     ]
-
+    let audURL = [
+      "./1970.mp3",
+      "./1992.mp3",
+      "./2008.mp3",
+      "./2011.mp3"
+    ]
+    let myAudio = new Audio();
+    myAudio.loop = true;
     let rotInterval, bgCol;
     let rot = 0;
     let currSel = null;
@@ -339,6 +364,7 @@
     Array.from(document.querySelectorAll(".ring")).forEach(a=>{
       a.onclick = ({target})=>{
         clearInterval(rotInterval);
+        myAudio.pause();
         isOff = false;
         rot = 0;
         ringA = document.getElementById("ringA");
@@ -353,6 +379,7 @@
         if(!target.className.includes("ring")) return;
         console.log(target)
         num = Number(target.id.slice(4))
+        myAudio.src = audURL[num - 1];
         if(currSel) currSel.setAttribute('style',``);
         (currSel = document.getElementById("info" + num)).setAttribute("style", "display: initial")
         ringA.className = "deLaCasa vivaldi" + num
@@ -361,8 +388,10 @@
         ringB.setAttribute("style", bgCol)
         document.getElementById("year1").innerText = years[num - 1][0]
         document.getElementById("year2").innerText = years[num - 1][1]
+        document.getElementById("title").setAttribute("style", "display: none;")
         setTimeout(()=>{
           clearInterval(rotInterval);
+          if(!isOff) myAudio.play();
           rotInterval = setInterval(()=>{
             rot += 30/20000 * 360
             document.getElementById("ringA").setAttribute("style", `transform: rotate(${rot}deg)`);
@@ -390,6 +419,8 @@
         currSel.setAttribute('style',``);
         currSel = null
         document.getElementById("scratch").setAttribute("style", "display: none;")
+        document.getElementById("title").setAttribute("style", "display: initial; text-align: center;")
+        myAudio.pause();
       }
     })
   </script>
