@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tunes of the Wild</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body{
+      overflow: hidden;
+      background-color: beige;
+    }
+
+    :root{
+      --scale: 0.5
+    }
+    /* @property --scale{
+      syntax: '<number>';
+      inherits: false;
+      initial-value: 1;
+    } */
+
+    #rings{
+      /* margin: auto; */
+      top: calc(50% - 250px);
+      left: calc(50% - 250px);
+      width: 500px;
+      height: 500px;
+      position: absolute;
+      transform: scale(1);
+      transform-origin: left top;
+    }
+    .ring1{
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      border-radius: 110px;
+      margin: auto;
+      top: 195px;
+      left: 195px;
+    }
+
+    @keyframes easeOut{
+      from {
+        left: calc(50% - 250px);
+        top: calc(50% - 250px);
+        transform: scale(1);
+      }
+
+      to {
+        left: calc(100% - 500px * var(--scale) - 20px);
+        top: 20px;
+        transform: scale(var(--scale))
+      }
+    }
+
+    @keyframes easeIn{
+      from {
+        left: calc(100% - 500px * var(--scale) - 20px);
+        top: 20px;
+        transform: scale(var(--scale))
+      }
+
+      to {
+        left: calc(50% - 250px);
+        top: calc(50% - 250px);
+        transform: scale(1);
+      }
+    }
+
+    .ring2{
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 220px;
+      margin: auto;
+      top: 140px;
+      left: 140px;
+    }
+
+    .ring3{
+      position: absolute;
+      width: 330px;
+      height: 330px;
+      border-radius: 330px;
+      margin: auto;
+      top: 85px;
+      left: 85px;
+    }
+
+    .ring4{
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 500px;
+      margin: auto;
+      top: 0px;
+      left: 0px;
+    }
+    
+    .vinyl{
+      background-size: cover;
+      background-position: center;
+      border-radius: 100vh;
+    }
+
+    .ring{
+      background-image: url("./treering_orig-removebg-preview.png");
+      background-size: 500px;
+      background-position: center;
+    }
+
+    .deLaCasa{
+      background-image: url("./treering_orig-removebg-preview.png");
+      background-size: 500px;
+      background-position: center;
+    }
+
+    .ring:hover{
+      background-image: radial-gradient(#e6f14760, #a6ad3727), url("https://ecophys.utah.edu/uploads/3/1/8/3/31835701/treering_orig.jpg");
+    }
+    [invisible]{
+      display: none;
+    }
+    .info{
+      position: absolute;
+    }
+    .vivaldi4{
+      position: absolute;
+      top: 0px;
+      border-radius: 100vh;
+      width: 100vh;
+      height: 100%;
+      margin: none;
+      background-size: 100vh;
+      background-repeat: no-repeat;
+      left: -45vh;
+    }
+
+    .vinyl{
+      position: absolute;
+      top: 0px;
+      border-radius: 200%;
+      width: calc(100vh * 330 / 500);
+      height: calc(100vh * 330 / 500);
+      top: calc(100vh * 85 / 500);
+      margin: none;
+      background-size: cover;
+      background-position: center;
+      border-radius: 100vh;
+      left: calc(-45vh + 100vh * 77 / 500);
+    }
+
+    .vivaldi3{
+      position: absolute;
+      top: 0px;
+      border-radius: 100vh;
+      width: 100vh;
+      height: 100%;
+      margin: none;
+      background-size: calc(100vh * 500 / 330);
+      background-repeat: no-repeat;
+      left: -45vh;
+    }
+
+    .vivaldi2{
+      position: absolute;
+      top: 0px;
+      border-radius: 100%;
+      width: 100vh;
+      height: 100%;
+      margin: none;
+      background-size: calc(100vh * 500 / 220);
+      background-repeat: no-repeat;
+      left: -45vh;
+    }
+
+    .vivaldi1{
+      position: absolute;
+      top: 0px;
+      border-radius: 100vh;
+      width: 100vh;
+      height: 100%;
+      margin: none;
+      background-size: calc(100vh * 500 / 110);
+      background-repeat: no-repeat;
+      left: -45vh;
+    }
+
+    #label{
+      left: 0px;
+      top: 0px;
+      width: 30%;
+      height: 30%;
+      position: absolute;
+    }
+
+    #ringB{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #scratch{
+      top: 2vh;
+      left: 12vh;
+      transform-origin: left top;
+      transform: scale(2) rotate(-25deg);
+      position: absolute;
+      display: none;
+    }
+
+    .date{
+      line-height: 100px;
+      display: flex;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      z-index: 100;
+      position: relative;
+      font-size: 10vh;
+      font-family: "UnifrakturCook", cursive;
+      font-weight: 600;
+    }
+
+    #prelude{
+      left: 60vh;
+      top: 1vh;
+      width: calc(100% - 500px * var(--scale) - 60vh - 50px);
+      position: absolute;
+    }
+    #prelude div{
+      display: none;
+    }
+
+    .back{
+      border: none;
+      color: darkblue;
+      font-size: 20px;
+      background: none;
+      margin-top: 10px;
+    }
+    .info h1{
+      margin-top: 0px;
+    }
+  </style>
+</head>
+<body>
+  <div id="prelude">
+    <div id="info1" class="info">
+      <button class="back">🡐 Back</button>
+      <h1>1960 - 1980: Birth of Earth's Care</h1>
+      <p>
+        This era was in the middle of the Cold War. Tensions were high, with several events such as the Vietnam War, the Cold War, Civil Rights movements, and the infamous near-apocalyptic Cuban Missile Crisis.
+        With the rise in activism, a new movement grew, one centred around the Earth.
+        <hr/>
+        In 1968, the International Convention for the Prevention of Pollution of the Sea by Oil (OILPOL) was one of the first international agreements that aimed to conserve the Earth, by aiming at preventing marine pollution by oil.
+        Then, the first Earth Day came on 1970. Earth Day is a day where people clean up the Earth and enlighten others on our environment, our impact, and what our actions can do.
+        In 1972, the Stockholm Conference led to the creation of the United Nations Environment Programme (UNEP), and set the foundation for future environmental agreements, like the Kyoto or Paris accords
+      </p>
+    </div>
+    <div id="info2" class="info">
+      <button class="back">🡐 Back</button>
+      <h1>1980 - 1995: Advancement and Cooperation</h1>
+      <p>
+        1989 saw the collapse of the Berlin Wall, the end of the Cold War, and the beginning of world peace. Furthermore, technology had improved a lot. Modern programming languages, like Python and Java were created, and the hit game Pac-man was made
+        Music had some big hits, like "Beat It," from Micheal Jackson. With these advances in technology and art came advances in the knowledge that the earth was burning. Movements were starting, and people were protesting.
+        <hr/>
+        The Comprehensive Environment Response, Compensation, and Liability Act (CERCLA, or Superfund), was made to clean up and manage abandoned toxic waste sites.
+        Then, in 1987, the United Nations met at Montreal, and made the Montreal Protocol, that was aimed to protect the ozone layer by phasing out the substances that destroyed it.
+        Finally, in 1992, the Convention on Biological Diversity was a treaty aimed to conserve biological diversity, ensuring that nature was used sustainably.
+      </p>
+    </div>
+    <div id="info3" class="info">
+      <button class="back">🡐 Back</button>
+      <h1>1980 - 1995: Rise of Pollution</h1>
+      <p>
+        There were major catastrophes. One such catastrophe was 9/11, a terrorist attack. Another was the Great Recession, a major economic hardship for the United States, which had to reduce several taxes.
+        This era was the worst era for climate. Even though treaties tried to preserve climate, pollution was just too much.
+        <hr/>
+        In 1997, the Environment Protection Act (EPA) was passed, protecting the environment and ensuring resources were used properly
+        This year also featured the Kyoto protocol. This was a treaty that set obligations to developed countries to reduce their greenhouse gasses to preserve the Earth.
+        Finally, in 2001, another Stockholm Convention, this time on persistent organic pollutants, aimed to protect human & natural health from the effects of persistent organic pollutants
+      </p>
+    </div>
+    <div id="info4" class="info">
+      <button class="back">🡐 Back</button>
+      <h1>2010 - 2025: Crisis and Climate</h1>
+      <p>
+        This era was an era trying to recover from the previous disaster: the Great Recession. However, more catastrophes occurred. A major pandemic, known as the COVID-19 pandemic, led to the quarantine of many, giving them time to think. 
+        Technology had advanced even further, with AI able to answer almost any question a human poses it. Social reform was also very rampant, with movements such as the Black Lives Matter movement.
+        <hr/>
+        One such movement happened in 2014, with the People's Climate March. The People's Climate March was a movement aimed at making the New York government enforce climate regulations properly.
+        However, America took a step back in 2017, when President Donald Trump withdrew America from the Paris Agreement, and encouraged factories to continue using fossil fuels.
+        Finally, a protest in 2016, lasting till 2017, was the Dakota Access Pipeline Protests. They were protesting against oil pipelines being built that would poison Standing Rock Sioux reservations.
+      </p>
+    </div>
+  </div>
+  <div id="rings" reset>
+    <div id="ring4" class="ring ring4"></div>
+    <div id="ring3" class="ring ring3"></div>
+    <div id="ring2" class="ring ring2"></div>
+    <div id="ring1" class="ring ring1"></div>
+  </div>
+  <div id="record">
+    <div id="ringA" class=""></div>
+    <div id="ringB" class="" style="display: none;">
+      <span class="date"><span id="year1">1991</span>
+        <hr style="width: 70px; margin-top: 0; margin-bottom: 0;">
+        <span id="year2">2010</span></span>
+    </div>
+    <svg height="200" width="60" id="scratch">
+      <polyline points="50,0 50,150 57,150 57,195 43,195 33,185 33,150 40,150 40,0 50,0" style="fill:lightgrey;stroke:black;stroke-width:1" />
+      Sorry, your browser does not support inline SVG.
+    </svg>
+  </div>
+  <script>
+    let years = [
+      [1960, 1980],
+      [1980, 1995],
+      [1995, 2010],
+      [2010, 2025]
+    ]
+    let bg = [
+      "./1980.png",
+      "./1995.png",
+      "./2010.png",
+      "./2025.png",
+    ]
+
+    let rotInterval, bgCol;
+    let rot = 0;
+    let currSel = null;
+    let num = 0;
+    let isOff = true;
+    const ring = document.getElementById("rings");
+    const scale = 0.5;
+    Array.from(document.querySelectorAll(".ring")).forEach(a=>{
+      a.onclick = ({target})=>{
+        clearInterval(rotInterval);
+        isOff = false;
+        rot = 0;
+        ringA = document.getElementById("ringA");
+        ringB = document.getElementById("ringB");
+        ringA.setAttribute("style", ``)
+        ringB.setAttribute("style", ``)
+        if(ring.hasAttribute("reset")) ring.setAttribute("style", `animation: easeOut 1s; top: 20px; left: calc(${innerWidth}px - 500px * ${scale} - 20px); transform: scale(${scale})`)
+        ring.toggleAttribute("reset", false);
+        document.getElementById("scratch").setAttribute("style", "display: initial;")
+        ringA.className = ""
+        ringB.className = ""
+        if(!target.className.includes("ring")) return;
+        console.log(target)
+        num = Number(target.id.slice(4))
+        if(currSel) currSel.setAttribute('style',``);
+        (currSel = document.getElementById("info" + num)).setAttribute("style", "display: initial")
+        ringA.className = "deLaCasa vivaldi" + num
+        ringB.className = "deLaCasa vinyl"         
+        bgCol = `background-image: radial-gradient(#000000C0, #000000 70%), url("${bg[num - 1]}");`
+        ringB.setAttribute("style", bgCol)
+        document.getElementById("year1").innerText = years[num - 1][0]
+        document.getElementById("year2").innerText = years[num - 1][1]
+        setTimeout(()=>{
+          clearInterval(rotInterval);
+          rotInterval = setInterval(()=>{
+            rot += 30/20000 * 360
+            document.getElementById("ringA").setAttribute("style", `transform: rotate(${rot}deg)`);
+            document.getElementById("ringB").setAttribute("style", bgCol + `transform: rotate(${rot}deg); display: ${isOff?"none":"flex"};`);
+          },30)
+        },2000)
+      }
+
+      console.log(a)
+    })
+
+    Array.from(document.querySelectorAll(".back")).forEach(a=>{
+      a.onclick = function(){
+        ringA = document.getElementById("ringA");
+        ringB = document.getElementById("ringB");
+        ringA.setAttribute("style", ``)
+        ringB.setAttribute("style", `display: none;`);
+        isOff = true;
+        ringA.className = "";
+        ringB.className = "";
+        ring.toggleAttribute("reset", true);
+        ring.setAttribute("style", "animation: easeIn 1s");
+        rot = 0;
+        clearInterval(rotInterval);
+        currSel.setAttribute('style',``);
+        currSel = null
+        document.getElementById("scratch").setAttribute("style", "display: none;")
+      }
+    })
+  </script>
+</body>
+</html>
