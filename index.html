@@ -247,6 +247,7 @@
     #title{
       text-align: center;
       font-size: 7vh;
+      display: block
     }
 
     .l{
@@ -419,7 +420,7 @@
         currSel.setAttribute('style',``);
         currSel = null
         document.getElementById("scratch").setAttribute("style", "display: none;")
-        document.getElementById("title").setAttribute("style", "display: initial; text-align: center;")
+        document.getElementById("title").setAttribute("style", "display: block; text-align: center;")
         myAudio.pause();
       }
     })
